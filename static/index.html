@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>beerMap</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <link rel="stylesheet" href="./main.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script defer src="./main.js"></script>
+</head>
+
+<body>
+    <div class="mainFrame">
+        <div id="mapFrame">
+
+        </div>
+        <div id="pubInfoFrame">
+            <!-- 정보 & 등록 버튼 -->
+            <div class="infoRegisterFrame">
+                <div class="showInfoButton">
+                    <p>정보</p>
+                </div>
+                <div class="showRegisterButton">
+                    <p>등록</p>
+                </div>
+            </div>
+            <!-- 업체 정보 & 등록 페이지 구성 -->
+            <!-- 업체 정보 페이지 -->
+            <div class="pubTitleAddressMenu">
+                <div class="pubTitleAndAddress">
+                    <p class="title">상호</p>
+                    <p class="address">주소</p>
+                </div>
+                <div class="pubMenu">
+                    <p class="menu">메뉴 및 정보</p>
+                </div>
+            </div>
+
+            <!-- 업체 등록 페이지 -->
+            <div class="pubRegister">
+                <div class="inputFields">
+                    <input type="text" class="titleRegister" placeholder="상호명" />
+                    <input type="text" class="addressRegister" placeholder="주소" />
+                    <textarea class="menuRegister" placeholder="맥주 정보와 메뉴"></textarea>
+                    <button type="submit" class="submitButton" onclick="onClickSubmitButton()">submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let map;
+        let geocoder;
+        let geoDatas = {};
+
+        function setMarker(lat, long) {
+            let latlng = {
+                lat: lat,
+                lng: long
+            };
+            let marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+            });
+        }
+
+        function initMap() {
+            let seoul = {
+                lat: 37.5642135,
+                lng: 127.0016985
+            };
+            map = new google.maps.Map(document.getElementById('mapFrame'), {
+                zoom: 10,
+                center: seoul
+            });
+            geocoder = new google.maps.Geocoder();
+        }
+
+        function geocodeAddress(geocoder, resultMap, addressString, pubs) {
+            let address = addressString;
+
+            /**
+             * 입력받은 주소로 좌표에 맵 마커를 찍는다.
+             * 1번째 파라미터 : 주소 등 여러가지. 
+             * 
+             * 2번째 파라미터의 함수
+             *      ㄴ result : 결과값
+             *      ㄴ status : 상태. OK가 나오면 정상.
+             */
+            geocoder.geocode({
+                'address': address
+            }, function(result, status) {
+
+                if (status === 'OK') {
+
+                    let marker = new google.maps.Marker({
+                        map: resultMap,
+                        position: result[0].geometry.location
+                    });
+
+                    // // 위도
+                    // console.log('위도(latitude) : ' + marker.position.lat());
+                    // // 경도
+                    // console.log('경도(longitude) : ' + marker.position.lng());
+
+                    // 식별 가능한 위도 경도를 key로 지정한다. ['37.7678,127.7889']이런 식으로 저장
+                    geoDatas[String(marker.position.lat()) + ',' + String(marker.position.lng())] = pubs;
+
+                    // 마커 클릭 시 동작 지정
+                    marker.addListener("click", () => {
+                        let data = geoDatas[String(marker.position.lat()) + ',' + String(marker.position.lng())];
+                        console.log(data);
+                        document.querySelector('.title').innerText = data.name;
+                        document.querySelector('.address').innerText = data.address;
+                        document.querySelector('.menu').innerText = data.menu;
+                        resultMap.setCenter(result[0].geometry.location);
+                        resultMap.setZoom(17);
+                    });
+                } else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                    // 이렇게 하는 이유는 단시간에 많은 데이터를 처리하게 되면 구글에서 돈내라고 OVER_QUERY_LIMIT STATUS를 반환하기 때문
+                    // 0.2초뒤에 다시 재귀함수마냥 호출한다.
+                    setTimeout(function() {
+                        geocodeAddress(geocoder, resultMap, addressString, pubs);
+                    }, 200);
+                } else {
+                    alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
+                }
+            });
+        }
+
+        function setGeoCodeAddress(address, pubs) {
+            geocodeAddress(geocoder, map, address, pubs);
+        }
+
+        function getGeoDatas() {
+            return geoDatas;
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmT67dreaJSSMn5Op5NKemxpPq6WSCni8&callback=initMap"></script>
+</body>
+
+</html>

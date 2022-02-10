@@ -1,0 +1,166 @@
+body {
+    width: 100%;
+    height: 100vh;
+}
+
+.mainFrame {
+    display: flex;
+    background-color: #009688;
+    width: 100%;
+    height: 100%;
+}
+
+.mainFrame #mapFrame {
+    background-color: #673AB7;
+    width: 75%;
+    height: 100%;
+}
+
+.mainFrame #pubInfoFrame {
+    background-color: #4CAF50;
+    width: 25%;
+    height: 100%;
+}
+
+.mainFrame #pubInfoFrame .infoRegisterFrame {
+    display: flex;
+    width: 100%;
+    height: 8%;
+    background-color: brown;
+    justify-content: center;
+}
+
+
+/* '정보' & '등록' 버튼 출력 div */
+
+.mainFrame #pubInfoFrame .infoRegisterFrame .showInfoButton {
+    width: 50%;
+    height: 100%;
+    background-color: #6D4C41;
+    color: white;
+    position: relative;
+}
+
+.mainFrame #pubInfoFrame .infoRegisterFrame .showInfoButton p {
+    font-size: 1.5em;
+    font-weight: bold;
+    position: absolute;
+    top: 36%;
+    left: 36%;
+}
+
+.mainFrame #pubInfoFrame .infoRegisterFrame .showRegisterButton {
+    width: 50%;
+    height: 100%;
+    background-color: #424242;
+    position: relative;
+    color: whitesmoke;
+}
+
+.mainFrame #pubInfoFrame .infoRegisterFrame .showRegisterButton p {
+    font-size: 1.5em;
+    font-weight: bold;
+    position: absolute;
+    top: 36%;
+    left: 36%;
+}
+
+
+/* '정보' 버튼을 누르면 출력되는 pubInfo div 공간*/
+
+.mainFrame #pubInfoFrame .pubTitleAddressMenu {
+    position: relative;
+    width: 100%;
+    height: 92%;
+}
+
+.mainFrame #pubInfoFrame .pubTitleAddressMenu .pubTitleAndAddress {
+    position: relative;
+    background-color: #795548;
+    width: 100%;
+    height: 20%;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+.mainFrame #pubInfoFrame .pubTitleAddressMenu .pubTitleAndAddress .title {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    font-size: 30px;
+}
+
+.mainFrame #pubInfoFrame .pubTitleAddressMenu .pubTitleAndAddress .address {
+    position: absolute;
+    top: 50%;
+    left: 11%;
+    font-size: 18px;
+}
+
+.mainFrame #pubInfoFrame .pubTitleAddressMenu .pubMenu {
+    width: 100%;
+    height: 80%;
+    background-color: #BCAAA4;
+    position: relative;
+}
+
+.mainFrame #pubInfoFrame .pubTitleAddressMenu .pubMenu .menu {
+    position: absolute;
+    font-weight: bold;
+    font-size: 25px;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+}
+
+
+/* '등록' 버튼을 누르면 출력되는 등록 페이지 */
+
+.mainFrame #pubInfoFrame .pubRegister {
+    width: 100%;
+    height: 92%;
+    background-color: #757575;
+    display: none;
+}
+
+.mainFrame #pubInfoFrame .pubRegister .inputFields {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.mainFrame #pubInfoFrame .pubRegister .titleRegister {
+    width: 80%;
+    height: 5%;
+    position: absolute;
+    overflow: hidden;
+    top: 5%;
+    left: 10%;
+}
+
+.mainFrame #pubInfoFrame .pubRegister .addressRegister {
+    position: absolute;
+    width: 80%;
+    height: 5%;
+    top: 11%;
+    left: 10%;
+}
+
+.mainFrame #pubInfoFrame .pubRegister .menuRegister {
+    position: absolute;
+    width: 80%;
+    height: 50%;
+    top: 20%;
+    left: 10%;
+}
+
+.mainFrame #pubInfoFrame .pubRegister .submitButton {
+    position: absolute;
+    left: 25%;
+    top: 75%;
+    width: 50%;
+    height: 5%;
+}
