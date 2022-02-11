@@ -1,2 +1,2 @@
 # BeerMap
-vanilaJS + Firebase Realtime Database
+vanilaJS + (NodeJS + Express) + Firebase Realtime Database
