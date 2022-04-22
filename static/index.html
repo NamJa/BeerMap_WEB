@@ -57,6 +57,7 @@
         let map;
         let geocoder;
         let geoDatas = {};
+        let arr = [];
 
         function setMarker(lat, long) {
             let latlng = {
@@ -79,6 +80,30 @@
                 center: seoul
             });
             geocoder = new google.maps.Geocoder();
+        }
+        
+        async function testGeo(geocoder, address) {
+        let Geocoder = await geocoder.geocode({
+            'address':address
+          }, function(result, status){
+              if (status === 'OK') {
+                arr[0] = result[0].geometry.location.lat()
+                arr[1] = result[0].geometry.location.lng()
+              }
+          })
+          let data = await Geocoder
+          
+          console.log(arr[0])
+          console.log(arr[1])
+          return arr
+        }
+        
+        
+        async function testGeoGeo(address) {
+          let arr = await testGeo(geocoder, address)
+          console.log(arr[0])
+          console.log(arr[1])
+          return arr
         }
 
         function geocodeAddress(geocoder, resultMap, addressString, pubs) {

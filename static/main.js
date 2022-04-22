@@ -9,13 +9,17 @@ let pubMenu = document.querySelector('.menuRegister');
 let submitBtn = document.querySelector(".submitButton");
 let pubNumCnt = 0;
 
+
 // submit 버튼 클릭시 동작하는 함수
-function onClickSubmitButton() {
+async function onClickSubmitButton() {
     let title = pubTitle.value;
     let address = pubAddress.value;
     let menu = pubMenu.value;
+    let latlng = await testGeoGeo(address)
+    let lat = latlng[0]
+    let lng = latlng[1]
     // firebase Realtime Database에 데이터 등록
-    database.ref('pubs/pubNo' + String(pubNumCnt)).set({ name: title, address: address, menu: menu }, function(error) {
+    database.ref('pubs/pubNo' + String(pubNumCnt)).set({ name: title, address: address, menu: menu, Lat: lat, Lng: lng}, function(error) {
         if (error)
             console.error(error)
         else {
@@ -28,6 +32,7 @@ function onClickSubmitButton() {
     pubMenu.value = "";
     getFirebaseData();
 }
+
 
 function getFirebaseData() {
     const dbRef = firebase.database().ref();
